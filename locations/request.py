@@ -2,19 +2,31 @@ LOCATIONS = [
     {
       "id": 1,
       "name": "Nashville North",
-      "address": "8422 Johnson Pike"
+      "address": "8422 Johnson Pike",
+      "status": "Not active"
     },
     {
       "id": 2,
       "name": "Nashville South",
-      "address": "209 Emory Drive"
+      "address": "209 Emory Drive",
+      "status": "Not active"
     },
     {
       "id": 3,
       "name": "Nashville West",
-      "address": "400 Today Drive"
+      "address": "400 Today Drive",
+      "status": "Not active"
     }
 ]
+
+def update_location(id, new_location):
+    # Iterate the LOCATIONS list, but use enumerate() so that
+    # you can access the index value of each item.
+    for index, location in enumerate(LOCATIONS):
+        if location["id"] == id:
+            # Found the animal. Update the value.
+            LOCATIONS[index] = new_location
+            break
 
 def delete_location(id):
     # Initial -1 value for location index, in case one isn't found

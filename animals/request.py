@@ -5,7 +5,8 @@ ANIMALS = [
       "breed": "Golden Retriever",
       "locationId": 3,
       "treatment": "Nails trimmed, and ears cleaned.",
-      "customerId": 5
+      "customerId": 5,
+      "status": "Admitted"
     },
     {
       "id": 4,
@@ -13,7 +14,8 @@ ANIMALS = [
       "breed": "Terrier/ Pit Mix",
       "locationId": 2,
       "treatment": "Lots of petting",
-      "customerId": 5
+      "customerId": 5,
+      "status": "Admitted"
     },
     {
       "id": 6,
@@ -21,7 +23,8 @@ ANIMALS = [
       "breed": "Another Doodle",
       "locationId": 1,
       "treatment": "Fatty lipoma removed",
-      "customerId": 5
+      "customerId": 5,
+      "status": "Admitted"
     },
     {
       "id": 7,
@@ -29,9 +32,19 @@ ANIMALS = [
       "breed": "Kitty",
       "locationId": 2,
       "treatment": "Behavioral treatment to be less shitty ",
-      "customerId": 5
+      "customerId": 5,
+      "status": "Admitted"
     }
 ]
+
+def update_animal(id, new_animal):
+    # Iterate the ANIMALS list, but use enumerate() so that
+    # you can access the index value of each item.
+    for index, animal in enumerate(ANIMALS):
+        if animal["id"] == id:
+            # Found the animal. Update the value.
+            ANIMALS[index] = new_animal
+            break
 
 def delete_animal(id):
     # Initial -1 value for animal index, in case one isn't found

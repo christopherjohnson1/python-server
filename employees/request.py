@@ -3,15 +3,26 @@ EMPLOYEES = [
       "name": "Kurt Russel",
       "locationId": 3,
       "animalId": 3,
-      "id": 6
+      "id": 6,
+      "status": "Not valued"
     },
     {
       "name": "Chris Johnson",
       "locationId": 3,
       "animalId": 3,
-      "id": 7
+      "id": 7,
+      "status": "Not valued"
     }
 ]
+
+def update_employee(id, new_employee):
+    # Iterate the EMPLOYEES list, but use enumerate() so that
+    # you can access the index value of each item.
+    for index, employee in enumerate(EMPLOYEES):
+        if employee["id"] == id:
+            # Found the employee. Update the value.
+            EMPLOYEES[index] = new_employee
+            break
 
 def delete_employee(id):
     # Initial -1 value for employee index, in case one isn't found
