@@ -107,3 +107,38 @@ def get_animals_by_location(location_id):
 
         # Return the JSON serialized animal object
         return json.dumps(animals)
+
+def get_animals_by_status(status):
+
+    with sqlite3.connect("./kennel.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        select
+            a.id,
+            a.name,
+            a.breed,
+            a.status,
+            a.location_id,
+            a.customer_id
+        from animal a
+        WHERE a.status = ?
+        """, ( status, ))
+
+        # Initialize an empty list to hold animal representations
+        animals = []
+
+        data = db_cursor.fetchall()
+
+        # Create an animal instance from the current row
+        for row in data:
+
+            animal = Animal(row['id'], row['name'], row['breed'],
+                                row['status'], row['location_id'],
+                                row['customer_id'])
+
+            animals.append(animal.__dict__)
+
+        # Return the JSON serialized animal object
+        return json.dumps(animals)

@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from animals import get_all_animals, get_single_animal, get_animals_by_location
+from animals import get_all_animals, get_single_animal, get_animals_by_location, get_animals_by_status
 from customers import get_all_customers, get_single_customer, get_customer_by_email
 from employees import get_all_employees, get_single_employee, get_employees_by_location
 from locations import get_all_locations, get_single_location
@@ -97,6 +97,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             
             elif key == "location_id" and resource == "animals":
                 response = get_animals_by_location(value)
+            
+            elif key == "status" and resource == "animals":
+                response = get_animals_by_status(value)
             
             elif key == "location_id" and resource == "employees":
                 response = get_employees_by_location(value)
