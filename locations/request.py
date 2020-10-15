@@ -63,3 +63,19 @@ def get_single_location(id):
         location = Location(data['id'], data['name'], data['address'])
 
         return json.dumps(location.__dict__)
+
+def delete_location(id):
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM location
+        WHERE id = ?
+        """, (id, ))
+
+        rows_affected = db_cursor.rowcount # 0 or 1
+
+        if rows_affected == 0:
+            return False
+        else:
+            return True

@@ -80,14 +80,14 @@ def get_animals_by_location(location_id):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        select
+        SELECT
             a.id,
             a.name,
             a.breed,
             a.status,
             a.location_id,
             a.customer_id
-        from animal a
+        FROM animal a
         WHERE a.location_id = ?
         """, ( location_id, ))
 
@@ -115,14 +115,14 @@ def get_animals_by_status(status):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        select
+        SELECT
             a.id,
             a.name,
             a.breed,
             a.status,
             a.location_id,
             a.customer_id
-        from animal a
+        FROM animal a
         WHERE a.status = ?
         """, ( status, ))
 
@@ -142,3 +142,19 @@ def get_animals_by_status(status):
 
         # Return the JSON serialized animal object
         return json.dumps(animals)
+
+def delete_animal(id):
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM animal
+        WHERE id = ?
+        """, (id, ))
+
+        rows_affected = db_cursor.rowcount # 0 or 1
+
+        if rows_affected == 0:
+            return False
+        else:
+            return True

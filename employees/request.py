@@ -74,12 +74,12 @@ def get_employees_by_location(location_id):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        select
+        SELECT
             e.id,
             e.name,
             e.address,
             e.location_id
-        from employee e
+        FROM employee e
         WHERE e.location_id = ?
         """, ( location_id, ))
 
@@ -98,3 +98,19 @@ def get_employees_by_location(location_id):
 
         # Return the JSON serialized animal object
         return json.dumps(employees)
+
+def delete_employee(id):
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM employee
+        WHERE id = ?
+        """, (id, ))
+
+        rows_affected = db_cursor.rowcount # 0 or 1
+
+        if rows_affected == 0:
+            return False
+        else:
+            return True
