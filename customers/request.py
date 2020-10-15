@@ -77,20 +77,36 @@ def get_customer_by_email(email):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        select
+        SELECT
             c.id,
             c.name,
             c.address,
             c.email,
             c.password
-        from Customer c
+        FROM Customer c
         WHERE c.email = ?
         """, ( email, ))
 
         data = db_cursor.fetchone()
 
         # Create an customer instance from the current row
-        customer = Customer(data['id'], data['name'], data['address'])
+        customer = Customer(data['id'], data['name'], data['address'], "", data['password'])
 
         # Return the JSON serialized Customer object
-        return json.dumps(customer.__dict__)
+        return json.dumps([customer.__dict__])
+
+def delete_customer(id):
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM customer
+        WHERE id = ?
+        """, (id, ))
+
+        rows_affected = db_cursor.rowcount # 0 or 1
+
+        if rows_affected == 0:
+            return False
+        else:
+            return True

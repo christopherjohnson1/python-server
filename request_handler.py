@@ -1,12 +1,19 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from animals import get_all_animals, get_single_animal, get_animals_by_location, get_animals_by_status
-from customers import get_all_customers, get_single_customer, get_customer_by_email
-from employees import get_all_employees, get_single_employee, get_employees_by_location
-from locations import get_all_locations, get_single_location
+from animals import get_all_animals, get_single_animal, get_animals_by_location, get_animals_by_status, delete_animal
+from customers import get_all_customers, get_single_customer, get_customer_by_email, delete_customer
+from employees import get_all_employees, get_single_employee, get_employees_by_location, delete_employee
+from locations import get_all_locations, get_single_location, delete_location
 
 # Here's a class. It inherits from another class.
 class HandleRequests(BaseHTTPRequestHandler):
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+        self.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
+        self.end_headers()
 
     def parse_url(self, path):
         path_params = path.split("/")
@@ -141,26 +148,45 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         # Set a 204 response code
-        self._set_headers(204)
 
         # Parse the URL
         (resource, id) = self.parse_url(self.path)
 
         # Delete a single animal from the list
         if resource == "animals":
-            delete_animal(id)
+            success = delete_animal(id) # True or False
+
+            if success:
+                self._set_headers(204) # SUCCESS, NO CONTENT
+            else:
+                self._set_headers(404) # Resource doesn't exist
         
         # Delete a single customer from the list
         if resource == "customers":
-            delete_customer(id)
+            success = delete_customer(id)
+
+            if success:
+                self._set_headers(204) # SUCCESS, NO CONTENT
+            else:
+                self._set_headers(404) # Resource doesn't exist
         
         # Delete a single employee from the list
         if resource == "employees":
-            delete_employee(id)
+            success = delete_employee(id)
+
+            if success:
+                self._set_headers(204) # SUCCESS, NO CONTENT
+            else:
+                self._set_headers(404) # Resource doesn't exist
         
         # Delete a single location from the list
         if resource == "locations":
-            delete_location(id)
+            success = delete_location(id)
+
+            if success:
+                self._set_headers(204) # SUCCESS, NO CONTENT
+            else:
+                self._set_headers(404) # Resource doesn't exist
 
         # Encode the new animal and send in response
         self.wfile.write("".encode())
